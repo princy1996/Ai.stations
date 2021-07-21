@@ -18,6 +18,9 @@ namespace Ai.Stations
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(configBuilder => {
+                    configBuilder.AddJsonFile("Data/stations.json", false, true);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
