@@ -19,7 +19,7 @@ namespace stations.Services
             featureCollection = JsonConvert.DeserializeObject<FeatureCollection>(rawJson);
         }
 
-        public IEnumerable<Feature> ReturnListOfAllFeatures(string? title)
+        public IEnumerable<Feature> ReturnListOfFeatures(string? title)
         {
             if(title == null)
             {
@@ -29,6 +29,20 @@ namespace stations.Services
             {
                 IEnumerable<Feature> titledFeatures = featureCollection.Features.Where(f => f.Properties.Title == title).ToList();
                 return titledFeatures;
+            }
+
+        }
+
+        public Feature? ReturnFeature(string title)
+        {
+            if (title == null)
+            {
+                return null;
+            }
+            else
+            {
+                Feature titledFeature = featureCollection.Features.Where(f => f.Properties.Title == title).Single();
+                return titledFeature;
             }
 
         }
