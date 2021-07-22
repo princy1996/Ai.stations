@@ -7,7 +7,7 @@ namespace Ai.Stations.Model
 {
     public class Geometry : IGeometry
     {
-        CollectionType Type { get; set; }
-        List<float> Coordinates { get; set; }
+        public CollectionType Type => CollectionType.Point;
+        public List<float> Coordinates { get; set; }
     }
 }

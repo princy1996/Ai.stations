@@ -1,32 +1,35 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Ai.Stations.Model;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace stations.Services
 {
     public class StationsService
     {
-
-        public List<string> getList()
+        private readonly FeatureCollection featureCollection;
+        public StationsService()
         {
-            //if ()
-            //{
-
-            //    return GetList();
-            //}
-
-            return new List<string>();
+            var rawJson = File.ReadAllText("Data/stations.json");
+            featureCollection = JsonSerializer.Deserialize<FeatureCollection>(rawJson);
         }
 
-        public string getStationbytitle(string stationName)
+        public IEnumerable<Feature> ReturnListOfAllFeatures(string? title)
         {
-            //if (!stationName)
-            //{
+            if(title == null)
+            {
+                return featureCollection.Features;
+            }
+            else
+            {
+                IEnumerable<Feature> titledFeatures = featureCollection.Features.Where(f => f.Properties.Title == title).ToList();
+                return titledFeatures;
+            }
 
-            //    return Getone();
-            //}
-
-            return string.Empty;
         }
 
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Ai.Stations.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using stations.Services;
@@ -12,47 +13,29 @@ namespace Ai.Stations.Controllers
     public class StationsController : ControllerBase
     {
         private readonly ILogger<StationsController> _logger;
-        private readonly StationsService Service;
+        private readonly StationsService _service;
 
-        public StationsController(ILogger<StationsController> logger)
+        public StationsController(StationsService stationsService, ILogger<StationsController> logger)
         {
             _logger = logger;
+            _service = stationsService;
         }
 
         [HttpGet]
         [Route("api/stations")]
-        public ActionResult<Dictionary<string, object>> GetStations()
+        public ActionResult<IEnumerable<Feature>> GetStations([FromQuery] string title)
         {
-            var stations = new StationsService();
-            List<string> List = stations.getList();
-
-            var dictionary = new Dictionary<string, object>();
-
-            foreach (var item in List)
+            var result = _service.ReturnListOfAllFeatures(title);
+            
+            if(result == null)
             {
-                dictionary.Add(item, item);
+                return NotFound("Object not found");
+            }
+            else
+            {
+                return new ActionResult<IEnumerable<Feature>>(result);
             }
 
-
-
-            if (List.Count == 0)
-            {
-                Console.WriteLine("No List");
-
-            }
-
-            return dictionary;
-        }
-
-        [HttpGet]
-        [Route("api/station/{?stationName}")]
-        public ActionResult<string> GetStation(string stationName)
-        {
-            var stations = new StationsService();
-            var one = stations.getStationbytitle(string.Empty);
-
-
-            return one;
         }
     }
 }

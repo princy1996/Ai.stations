@@ -8,7 +8,7 @@ namespace Ai.Stations.Model
     public class Feature : IFeature
     {
         public Geometry Geometry { get; set; }
-        public CollectionType Type { get; set; } = CollectionType.Feature;
+        public CollectionType Type => CollectionType.Feature;
         public Properties Properties { get; set; }
         public string Address { get; set; }
     }

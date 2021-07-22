@@ -7,7 +7,7 @@ namespace Ai.Stations.Model
 {
     public class FeatureCollection : IFeatureCollection
     {
-        public CollectionType Type { get; set; } => CollectionType.FeatureCollection;
+        public CollectionType Type => CollectionType.FeatureCollection;
         public List<Feature> Features { get; set; }
     }
 }
