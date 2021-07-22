@@ -1,6 +1,7 @@
 ﻿using Ai.Stations.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace stations.Services
         public StationsService()
         {
             var rawJson = File.ReadAllText("Data/stations.json");
-            featureCollection = JsonSerializer.Deserialize<FeatureCollection>(rawJson);
+            featureCollection = JsonConvert.DeserializeObject<FeatureCollection>(rawJson);
         }
 
         public IEnumerable<Feature> ReturnListOfAllFeatures(string? title)

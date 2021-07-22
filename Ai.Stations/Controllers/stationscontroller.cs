@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using stations.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ai.Stations.Controllers
 {
@@ -25,7 +26,8 @@ namespace Ai.Stations.Controllers
         [Route("api/stations")]
         public ActionResult<IEnumerable<Feature>> GetStations([FromQuery] string title)
         {
-            var result = _service.ReturnListOfAllFeatures(title);
+            //Could be used to check for single result
+            ICollection<Feature> result = (ICollection<Feature>)_service.ReturnListOfAllFeatures(title);
             
             if(result == null)
             {
