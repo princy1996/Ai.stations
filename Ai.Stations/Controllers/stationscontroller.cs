@@ -1,25 +1,24 @@
 ﻿using Ai.Stations.Model;
+using Ai.Stations.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using stations.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Ai.Stations.Controllers
 {
+
     [ApiController]
     [Produces("application/json")]
     public class StationsController : ControllerBase
     {
-        private readonly ILogger<StationsController> _logger;
-        private readonly StationsService _service;
+        private readonly IStationsRepository _stationsRepository;
 
-        public StationsController(StationsService stationsService, ILogger<StationsController> logger)
+        public StationsController(IStationsRepository stationsRepository)
         {
-            _logger = logger;
-            _service = stationsService;
+            _stationsRepository = stationsRepository;
         }
 
         /// <summary>
@@ -33,17 +32,17 @@ namespace Ai.Stations.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/stations")]
-        public ActionResult<IEnumerable<Feature>> GetStations([FromQuery] string title)
+        public IEnumerable<Feature>? GetStations([FromQuery] string? title)
         {
-            ICollection<Feature> result = (ICollection<Feature>)_service.ReturnListOfFeatures(title);
+            ICollection<Feature> result = (ICollection<Feature>)_stationsRepository.ReturnListOfFeatures(title);
             
             if(result == null)
             {
-                return NotFound("Object not found");
+                return null;
             }
             else
             {
-                return new ActionResult<IEnumerable<Feature>>(result);
+                return result;
             }
 
         }
@@ -55,17 +54,17 @@ namespace Ai.Stations.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/stations/{stationTitle}")]
-        public ActionResult<Feature> GetStationByTitle([FromRoute] string stationTitle)
+        public Feature? GetStationByTitle([FromRoute] string stationTitle)
         {
-            Feature result = _service.ReturnFeature(stationTitle);
+            Feature result = _stationsRepository.ReturnFeature(stationTitle);
 
             if (result == null)
             {
-                return NotFound("Object not found");
+                return null;
             }
             else
             {
-                return new ActionResult<Feature>(result);
+                return result;
             }
         }
     }

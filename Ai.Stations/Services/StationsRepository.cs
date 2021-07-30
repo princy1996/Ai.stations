@@ -8,12 +8,17 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace stations.Services
+namespace Ai.Stations.Services
 {
-    public class StationsService
+    public interface IStationsRepository
+    {
+        IEnumerable<Feature> ReturnListOfFeatures(string? title);
+        Feature? ReturnFeature(string title);
+    }
+    public class StationsRepository : IStationsRepository
     {
         private readonly FeatureCollection featureCollection;
-        public StationsService()
+        public StationsRepository()
         {
             var rawJson = File.ReadAllText("Data/stations.json");
             featureCollection = JsonConvert.DeserializeObject<FeatureCollection>(rawJson);

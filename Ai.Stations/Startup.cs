@@ -11,7 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ai.Stations.Model;
-using stations.Services;
+using Ai.Stations.Services;
+
 
 namespace Ai.Stations
 {
@@ -28,7 +29,7 @@ namespace Ai.Stations
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<StationsService>();
+            services.AddScoped<StationsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
