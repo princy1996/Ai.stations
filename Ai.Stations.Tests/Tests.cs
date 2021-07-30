@@ -59,8 +59,6 @@ namespace Ai.Stations.Tests
 
             viewResult.Should().BeEquivalentTo(GetStationByTitle());
         }
-
-        [Fact]
         private IEnumerable<Feature> GetListOfStations()
         {
             var stations = new List<Feature>();
